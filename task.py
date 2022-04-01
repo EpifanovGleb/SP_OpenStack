@@ -7,26 +7,37 @@ from keystoneauth1.identity import v3
 import openstack.compute.v2.limits
 from keystoneauth1 import loading
 from keystoneauth1 import session
+from pprint import pprint
 
 
-def processing(x):
-    answer = ""
+def processing(x, lst_1):
+    answer = 0
     for it in x:
-        if type(x[it]) != dict:
-            return x[it]
-        else:
-            answer = processing(x[it])
+        if it == lst_1[0]:
+            if type(x[it]) == str:
+                if len(lst_1) == 1:
+                    return x[it]
+                else:
+                    return 0
+            if type(x[it]) == dict:
+                if len(lst_1) > 1:
+                    lst_1.pop(0)
+                    answer = processing(x[it], lst_1)
+                else:
+                    return 0
 
-    return answer
+        return answer
 
 
-conn = openstack.connect(cloud='openstack', region_name='regionOne')  # Getting an object after call
+if __name__ == '__main__':
 
+    conn = openstack.connect(cloud='openstack', region_name='regionOne')  # Getting an object after call
 # # # Module 1
 
-input_first_arg = input()  # The input of a first str
+input_first_arg = ""  # The input of a first str
 
 # CASE 1
+'''
 flag_1 = hasattr(conn.compute, input_first_arg)  # Checking if attribute exists
 if flag_1:
     my_dict = getattr(conn.compute, input_first_arg)  # If attribute exists
@@ -39,47 +50,65 @@ if flag_2:
     for temp in my_dict():
         print(temp)
 
+'''
 # CASE 2
 '''
-check_string = "list_" + input_first_str
+my_dict = {}
+check_string = "list_" + input_first_arg
+conn.list_stacks()
+
 flag_3 = hasattr(conn, check_string)
 if flag_3:
     my_dict = getattr(conn, check_string)
     pprint(my_dict())
-'''
-
 # # # Module 2 and 3
-
-
-# Case of manual input
-'''
-lst = []
+my_lst = []
 while True:
-    data = dict()
     try:
         key = input()
-        value = input()
     except:
         break
-    data[key] = value
-    lst.append(data)
-print(lst)
+    my_lst.append(key)
+print(my_lst)
 '''
-print("\nThe result:\n")
 
+lst = [{'a': "success", 'b': {'f': {'e': "success"}, 'c': "fail"}}, {'a': "failure"}]
+inp_second_arg = ['a']
+inp_third_arg = "r"
+answer = ""
 
-lst = [{'a': {'b': {'c': "fail"}}}, {'c': 'd'}, {'b': {'c': "fail"}}]
-inp_third_arg = input()
 for diction in lst:
-    for i in diction:
-        if type(diction[i]) != dict:
-            result = diction[i]
+    my_diction = diction.copy()
+    my_copy = inp_second_arg.copy()
+    temp = len(inp_second_arg)
+    i = 0
+    while i < temp:
+        it = inp_second_arg[i]
+        try:
+            my_diction[it]
+        except:
+            answer = 0
+            break
+        if i == temp - 1:
+            if type(my_diction[it]) == str:
+                answer = my_diction[it]
+            else:
+                answer = 0
+                break
         else:
-            result = processing(diction[i])
-        # print(result) # Printing the result of processing function
+            if type(my_diction[it]) != dict:
+                answer = 0
+                break
+            my_copy.pop(0)
+            my_diction = my_diction[it]
+        i += 1
+    #print(answer)
+    if type(answer) == str:
+        if answer.find(inp_third_arg) != -1:
+            print(diction)
 
-        if result.find(inp_third_arg) != -1:
-            print("{'", i, "': ", diction[i], "}", sep="")
+
+
 
 
 
