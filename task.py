@@ -22,20 +22,6 @@ def processing(x):
 
 conn = openstack.connect(cloud='openstack', region_name='regionOne')  # Getting an object after call
 
-''' #Another way to connect
-loader = loading.get_plugin_loader('password')
-auth = loader.load_from_options(auth_url='https://sky.ispras.ru:13000',
-                                username='epifanov',
-                                 password='GlebEpifanov6354',
-                                 project_id='b71e624e352e46979b4ed9fff16759dc',
-                                user_domain_name="Default")
-
-
-data = openstack.compute.v2.limits.AbsoluteLimits(session=conn)
-print(data.to_dict())
-conn.get_compute_quotas("users")
-'''
-
 # # # Module 1
 
 input_first_arg = input()  # The input of a first str
