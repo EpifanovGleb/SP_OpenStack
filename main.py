@@ -33,7 +33,8 @@ if __name__ == '__main__':
     inp_first_arg = ""
     inp_second_arg = []
     inp_third_arg = ""
-    for i, arg in enumerate(sys.argv):
+
+    for i, arg in enumerate(sys.argv):  # Parsing command line
         if i == 1:
             inp_first_arg = arg
             inp_third_arg = sys.argv[-1]
@@ -41,12 +42,12 @@ if __name__ == '__main__':
             if 1 < i < len(sys.argv) - 1:
                 inp_second_arg.append(arg)
 
-    conn = openstack.connect(cloud='openstack', region_name='regionOne')
+    conn = openstack.connect(cloud='openstack', region_name='regionOne')  # Connecting to OpenStack
     list_of_available_services = []
 
     my_dict = conn.service_catalog  # Getting the list of available services
     for element in my_dict:
-        temp = element.get("type")
+        temp = element.get("type")  # Parsing the dicts -> getting a list of available services
         list_of_available_services.append(temp)
 
     list_of_available_services = processing(list_of_available_services)  # Changing the list
@@ -119,11 +120,11 @@ if __name__ == '__main__':
                     check = False
                 max_size = len(list_to_output[0].keys())
 
-    overall = []
-    answer = ""
+    overall = []  # Final list to output
     print("The result of the second task:\n")
 
     for diction in list_to_output:
+        answer = ""
         my_diction = diction.copy()
         my_copy = inp_second_arg.copy()
         temp = len(inp_second_arg)
