@@ -139,7 +139,7 @@ if __name__ == '__main__':
                 break
 
             if i == temp - 1:
-                if type(my_diction[it]) == str:
+                if type(my_diction[it]) == str or type(my_diction[it]) == list:
                     answer = my_diction[it]
 
                 else:
@@ -147,7 +147,7 @@ if __name__ == '__main__':
                     break
 
             else:
-                if type(my_diction[it]) != dict:
+                if type(my_diction[it]) == str or type(my_diction[it]) == list:
                     answer = 0
                     break
 
@@ -161,7 +161,7 @@ if __name__ == '__main__':
                 overall.append(dict(diction))
 
     print("\n\nThe result of the task:\n")
-    print(overall)
+    pprint(overall)
 
 
 
