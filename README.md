@@ -1,4 +1,5 @@
 # Task
+# main.py - demo of final version
 # module_1.py contains the 1st part of the task
 # task.py contains modules (1)-(3)
 # task_1.0.py contains modules (1)-(3)*
