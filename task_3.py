@@ -47,11 +47,11 @@ if __name__ == '__main__':
     flag_task_3 = False
     if len(inp_second_arg) == 0 and inp_third_arg == "":
         flag_task_3 = True
-    try:
-        conn = openstack.connect(cloud='openstack', region_name='regionOne')  # Connecting to OpenStack
-    except:
-        print("Could not find versioned identity endpoints when attempting to authenticate. Please check your auth_url is correct.")
-        return 0
+    
+    conn = openstack.connect(cloud='openstack', region_name='regionOne')  # Connecting to OpenStack
+    
+    print("Could not find versioned identity endpoints when attempting to authenticate. Please check your auth_url is correct.")
+   
     list_of_available_services = []
 
     my_dict = conn.service_catalog  # Getting the list of available services
