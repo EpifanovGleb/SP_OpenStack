@@ -15,18 +15,19 @@ def string_parsing(tmp_str):
 
 
 def processing(tmp_list):
-    list_for_check = ['volume']
-    answer = []
-    for y in tmp_list:
-        answer.append(string_parsing(y))
+    tmp = []
+    for x in tmp_list:
+        tmp.append(string_parsing(x))
+    answer_list = tmp
+    for y in tmp:
+        if y.find("v2") != -1:
+            answer_list.append(y.replace("v2", ""))
+        if y.find("v3") != -1:
+            answer_list.append(y.replace("v3", ""))
 
-    for z in list_for_check:
-        for x in tmp_list:
-            if x.find(z):
-                answer.append(z)
-                break
-
-    return answer
+    my_set = set(answer_list)
+    answer_list = list(my_set)
+    return answer_list
 
 
 if __name__ == '__main__':
@@ -54,12 +55,9 @@ if __name__ == '__main__':
     list_of_available_services.remove("key_manager")
     print("The list of available services (refactored):\n")
     print(list_of_available_services, "\n")
-    counter = False
-    # cloudformation - ?
-
     list_to_output = []
     tmp_vec = []
-
+    counter = False
     # # # CASE 1
     '''
     for elem in list_of_available_services:
@@ -71,7 +69,6 @@ if __name__ == '__main__':
                 dict_my = getattr(my_object, inp_first_arg)
             except:
                 flag = False
-
             if flag:
                 dict_my = getattr(my_object, inp_first_arg)
                 #print(elem)
@@ -82,7 +79,6 @@ if __name__ == '__main__':
                         for el in it:
                             if list_to_output[i].get(el) == None:
                                 list_to_output[i].update({el: it.get(el)})
-
                         i += 1
                 else:
                     check = True
@@ -92,10 +88,9 @@ if __name__ == '__main__':
                         counter = True
                     except:
                         check = False
-
     '''
     # # # CASE 2
-
+    max_size = 0
     for elem in list_of_available_services:
         flag = True
         if hasattr(conn, elem):
@@ -108,14 +103,18 @@ if __name__ == '__main__':
 
             if flag:
                 dict_my = getattr(my_object, inp_first_arg)
+                tmp_list_to_output = []
                 # print(elem)
                 check = True
-                max_size = 0
                 try:
-                    if len(list_to_output) == 0 or len(list_to_output[0].keys()) > max_size:
+                    for it in dict_my():
+                        tmp_list_to_output.append(dict(it))
+
+                    if len(tmp_list_to_output[0].keys()) > max_size or max_size == 0:
+                        max_size = len(tmp_list_to_output[0].keys())
                         list_to_output.clear()
-                        for it in dict_my():
-                            list_to_output.append(dict(it))
+                        list_to_output = tmp_list_to_output
+
                 except:
                     check = False
                 max_size = len(list_to_output[0].keys())
@@ -139,7 +138,7 @@ if __name__ == '__main__':
                 break
 
             if i == temp - 1:
-                if type(my_diction[it]) == str or type(my_diction[it]) == list:
+                if type(my_diction[it]) == str:
                     answer = my_diction[it]
 
                 else:
@@ -162,6 +161,4 @@ if __name__ == '__main__':
 
     print("\n\nThe result of the task:\n")
     pprint(overall)
-
-
 
