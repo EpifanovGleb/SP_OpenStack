@@ -129,7 +129,7 @@ if __name__ == '__main__':
                         try:
                             my_diction[it]
                         except:
-                            print("WARNING!: Noo such key\n")
+                            print("WARNING!: No such key\n")
                             answer = 0
                             check_for_key = False
                             break
